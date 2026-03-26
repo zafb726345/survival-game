@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jungle Survival</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./game.js" defer></script>
+  </head>
+  <body>
+    <main class="app">
+      <section class="game-shell" aria-labelledby="game-title">
+        <header class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Open-World Survival Prototype</p>
+            <h1 id="game-title">Jungle Survival</h1>
+            <p class="subtitle">
+              Explore a rain-heavy jungle, forage through mountains and rivers, fight off
+              hunters in the dark, and craft a signal beacon to escape.
+            </p>
+          </div>
+
+          <div class="hero-badges" aria-label="Feature highlights">
+            <span class="badge">Crafting</span>
+            <span class="badge">Dynamic Weather</span>
+            <span class="badge">Day-Night Cycle</span>
+          </div>
+        </header>
+
+        <section class="layout">
+          <section class="stage-card" aria-labelledby="stage-heading">
+            <div class="stage-top">
+              <div class="status-strip">
+                <span id="weather-pill" class="pill">Clear</span>
+                <span id="time-pill" class="pill">15:00</span>
+                <span id="weapon-pill" class="pill">Knife</span>
+              </div>
+
+              <button id="restart-button" class="button button-secondary" type="button">
+                Restart Expedition
+              </button>
+            </div>
+
+            <h2 id="stage-heading" class="sr-only">Game world</h2>
+            <canvas
+              id="game-canvas"
+              class="game-canvas"
+              width="1280"
+              height="720"
+              aria-label="Top-down jungle survival game"
+            ></canvas>
+
+            <div class="stage-footer">
+              <p id="message-bar" class="message-bar">
+                Move with WASD or Arrow keys to begin exploring.
+              </p>
+            </div>
+          </section>
+
+          <aside class="sidebar">
+            <section class="panel">
+              <div class="hud-grid">
+                <article class="stat-card">
+                  <span class="stat-label">Health</span>
+                  <strong id="health-value">100</strong>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-label">Hunger</span>
+                  <strong id="hunger-value">100</strong>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-label">Stamina</span>
+                  <strong id="stamina-value">100</strong>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-label">Day</span>
+                  <strong id="day-value">1</strong>
+                </article>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>Backpack</h2>
+                <p class="panel-copy">Gather resources with <kbd>E</kbd> and stay stocked.</p>
+              </div>
+
+              <div class="inventory-grid">
+                <div class="resource-card">
+                  <span>Wood</span>
+                  <strong id="wood-value">0</strong>
+                </div>
+                <div class="resource-card">
+                  <span>Stone</span>
+                  <strong id="stone-value">0</strong>
+                </div>
+                <div class="resource-card">
+                  <span>Fiber</span>
+                  <strong id="fiber-value">0</strong>
+                </div>
+                <div class="resource-card">
+                  <span>Herb</span>
+                  <strong id="herb-value">0</strong>
+                </div>
+                <div class="resource-card">
+                  <span>Berry</span>
+                  <strong id="berry-value">0</strong>
+                </div>
+                <div class="resource-card">
+                  <span>Scrap</span>
+                  <strong id="scrap-value">0</strong>
+                </div>
+              </div>
+
+              <div class="kit-grid">
+                <div class="resource-card compact">
+                  <span>Medkits</span>
+                  <strong id="medkit-count">0</strong>
+                </div>
+                <div class="resource-card compact">
+                  <span>Campfires</span>
+                  <strong id="campfire-count">0</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>Crafting</h2>
+                <p class="panel-copy">Build gear to survive and escape.</p>
+              </div>
+
+              <div class="craft-grid">
+                <button class="button button-primary" type="button" data-craft="spear">
+                  Stone Spear
+                </button>
+                <button class="button button-primary" type="button" data-craft="medkit">
+                  Medkit
+                </button>
+                <button class="button button-primary" type="button" data-craft="campfire">
+                  Campfire Kit
+                </button>
+                <button class="button button-primary" type="button" data-craft="beacon">
+                  Signal Beacon
+                </button>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>Mission</h2>
+                <p class="panel-copy">
+                  Craft a signal beacon before the jungle and its hunters finish you.
+                </p>
+              </div>
+
+              <div class="objective-grid">
+                <div class="objective-row">
+                  <span>Wood</span>
+                  <strong id="objective-wood">0 / 12</strong>
+                </div>
+                <div class="objective-row">
+                  <span>Stone</span>
+                  <strong id="objective-stone">0 / 8</strong>
+                </div>
+                <div class="objective-row">
+                  <span>Fiber</span>
+                  <strong id="objective-fiber">0 / 6</strong>
+                </div>
+                <div class="objective-row">
+                  <span>Scrap</span>
+                  <strong id="objective-scrap">0 / 4</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>Controls</h2>
+                <p class="panel-copy">Keyboard shortcuts for combat and survival.</p>
+              </div>
+
+              <div class="controls-list">
+                <p><kbd>WASD</kbd> or <kbd>Arrow</kbd> keys move</p>
+                <p><kbd>Shift</kbd> sprint</p>
+                <p><kbd>E</kbd> gather nearest node</p>
+                <p><kbd>Space</kbd> attack</p>
+                <p><kbd>R</kbd> eat berry</p>
+                <p><kbd>Q</kbd> use medkit</p>
+                <p><kbd>F</kbd> place campfire</p>
+              </div>
+            </section>
+
+            <section class="panel log-panel">
+              <div class="panel-heading">
+                <h2>Field Log</h2>
+                <p class="panel-copy">Latest survival updates.</p>
+              </div>
+              <ul id="event-log" class="event-log" aria-live="polite"></ul>
+            </section>
+          </aside>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
