@@ -1,0 +1,551 @@
+:root {
+  color-scheme: dark;
+  font-family: "Avenir Next Condensed", "Trebuchet MS", "Segoe UI", sans-serif;
+  line-height: 1.5;
+  color: #edf2ea;
+  background: #08110d;
+  --mist: rgba(238, 245, 238, 0.84);
+  --text-soft: rgba(225, 235, 226, 0.76);
+  --text-muted: rgba(177, 191, 180, 0.85);
+  --shell-border: rgba(214, 231, 217, 0.12);
+  --panel-border: rgba(187, 213, 200, 0.12);
+  --panel-top: rgba(17, 33, 26, 0.86);
+  --panel-bottom: rgba(8, 18, 14, 0.84);
+  --panel-glow: rgba(86, 116, 100, 0.18);
+  --leaf: #88b070;
+  --leaf-deep: #315640;
+  --earth: #8a7049;
+  --river: #6ca7c4;
+  --danger: #ce735f;
+  --danger-deep: #8a3c33;
+  --gold: #c3a46a;
+  --gold-deep: #8f6d3d;
+  --focus: #8bc2ff;
+  --button-top: #304f3d;
+  --button-bottom: #1a2e23;
+  --button-border: rgba(202, 226, 212, 0.14);
+  --canvas-border: rgba(220, 236, 229, 0.14);
+  --shadow: 0 36px 90px rgba(0, 0, 0, 0.44);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(187, 213, 203, 0.18), transparent 12%),
+    radial-gradient(circle at 20% 14%, rgba(94, 129, 111, 0.16), transparent 14%),
+    radial-gradient(circle at 80% 14%, rgba(69, 94, 105, 0.16), transparent 14%),
+    linear-gradient(180deg, #0c1a18 0%, #11251f 26%, #193025 62%, #08110d 100%);
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 26%),
+    radial-gradient(circle at 50% 86%, rgba(27, 42, 33, 0.44), transparent 32%);
+}
+
+body::after {
+  background:
+    linear-gradient(180deg, rgba(7, 12, 10, 0.08), rgba(5, 10, 8, 0.4)),
+    repeating-linear-gradient(110deg, rgba(236, 245, 240, 0.02) 0 1px, transparent 1px 18px);
+  mix-blend-mode: screen;
+}
+
+button,
+kbd {
+  font: inherit;
+}
+
+.app {
+  position: relative;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.app::before {
+  content: "";
+  position: fixed;
+  left: -8vw;
+  right: -8vw;
+  bottom: 0;
+  height: 32vh;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent, rgba(4, 8, 7, 0.92)),
+    radial-gradient(ellipse at 8% 100%, rgba(43, 71, 58, 0.82), transparent 34%),
+    radial-gradient(ellipse at 24% 100%, rgba(30, 50, 40, 0.86), transparent 34%),
+    radial-gradient(ellipse at 42% 100%, rgba(47, 74, 61, 0.8), transparent 34%),
+    radial-gradient(ellipse at 59% 100%, rgba(29, 47, 39, 0.88), transparent 34%),
+    radial-gradient(ellipse at 76% 100%, rgba(43, 66, 53, 0.84), transparent 34%),
+    radial-gradient(ellipse at 94% 100%, rgba(30, 52, 42, 0.8), transparent 34%);
+  clip-path: polygon(0 100%, 0 42%, 12% 56%, 21% 34%, 34% 58%, 46% 36%, 60% 60%, 75% 28%, 88% 54%, 100% 44%, 100% 100%);
+  opacity: 0.95;
+}
+
+.game-shell {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: clamp(22px, 4vw, 34px);
+  border-radius: 34px;
+  border: 1px solid var(--shell-border);
+  background:
+    linear-gradient(180deg, rgba(11, 22, 17, 0.92), rgba(6, 12, 10, 0.9));
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.game-shell::before,
+.game-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.game-shell::before {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(131, 163, 145, 0.12), transparent 18%),
+    radial-gradient(circle at 86% 0%, rgba(108, 138, 149, 0.12), transparent 16%),
+    radial-gradient(circle at 50% 100%, rgba(18, 31, 24, 0.24), transparent 22%);
+}
+
+.game-shell::after {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 14%, transparent 78%, rgba(0, 0, 0, 0.28)),
+    repeating-linear-gradient(106deg, rgba(234, 242, 238, 0.02) 0 1px, transparent 1px 20px);
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.hero-copy {
+  max-width: 680px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  color: #f4f8f4;
+}
+
+.subtitle {
+  margin: 14px 0 0;
+  max-width: 42rem;
+  color: var(--text-soft);
+  font-size: 1rem;
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  max-width: 320px;
+}
+
+.badge,
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(213, 229, 217, 0.12);
+  background: linear-gradient(180deg, rgba(222, 236, 229, 0.08), rgba(126, 149, 136, 0.05));
+  color: #e3ece5;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.layout {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.9fr);
+  gap: 20px;
+}
+
+.stage-card,
+.panel {
+  position: relative;
+  border-radius: 28px;
+  border: 1px solid var(--panel-border);
+  background:
+    linear-gradient(180deg, var(--panel-top), var(--panel-bottom));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 24px 50px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+}
+
+.stage-card::before,
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.03), transparent 26%),
+    radial-gradient(circle at bottom right, var(--panel-glow), transparent 24%);
+}
+
+.stage-card {
+  padding: 18px;
+}
+
+.stage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.button {
+  appearance: none;
+  cursor: pointer;
+  border: 1px solid var(--button-border);
+  border-radius: 18px;
+  padding: 12px 16px;
+  color: #f4f8f4;
+  background: linear-gradient(180deg, var(--button-top), var(--button-bottom));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 14px 30px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    filter 180ms ease,
+    opacity 180ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  transform: none;
+  filter: none;
+}
+
+.button-primary {
+  min-height: 54px;
+}
+
+.button-secondary {
+  min-width: 182px;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 22px;
+  border: 1px solid var(--canvas-border);
+  background:
+    radial-gradient(circle at 50% 16%, rgba(223, 232, 224, 0.06), transparent 18%),
+    linear-gradient(180deg, rgba(16, 30, 23, 0.82), rgba(7, 14, 11, 0.98));
+}
+
+.stage-footer {
+  margin-top: 14px;
+}
+
+.message-bar {
+  margin: 0;
+  min-height: 1.5em;
+  color: var(--mist);
+}
+
+.sidebar {
+  display: grid;
+  gap: 14px;
+}
+
+.panel {
+  padding: 18px;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+
+.panel-heading h2 {
+  margin: 0;
+  font-size: 1.28rem;
+  letter-spacing: -0.03em;
+}
+
+.panel-copy {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.hud-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stat-card,
+.resource-card,
+.objective-row {
+  border-radius: 20px;
+  border: 1px solid rgba(208, 226, 213, 0.1);
+  background: linear-gradient(180deg, rgba(32, 55, 44, 0.48), rgba(14, 24, 19, 0.58));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.stat-card {
+  padding: 14px 16px;
+}
+
+.stat-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.stat-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kit-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.resource-card {
+  padding: 12px 14px;
+}
+
+.resource-card span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.resource-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.32rem;
+}
+
+.resource-card.compact strong {
+  font-size: 1.1rem;
+}
+
+.craft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.objective-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.objective-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+}
+
+.objective-row span {
+  color: var(--text-muted);
+}
+
+.controls-list {
+  display: grid;
+  gap: 8px;
+}
+
+.controls-list p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(222, 235, 224, 0.14);
+  background: rgba(236, 245, 239, 0.08);
+  color: #f6faf7;
+  font-size: 0.84em;
+}
+
+.log-panel {
+  min-height: 240px;
+}
+
+.event-log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.event-log li {
+  padding: 12px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(214, 229, 218, 0.1);
+  background: linear-gradient(180deg, rgba(28, 47, 38, 0.5), rgba(11, 18, 15, 0.6));
+  color: var(--text-soft);
+}
+
+.event-log li strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #f2f6f3;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1120px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .panel-copy {
+    text-align: left;
+  }
+}
+
+@media (max-width: 760px) {
+  .app {
+    padding: 16px;
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-badges {
+    justify-content: flex-start;
+    max-width: none;
+  }
+
+  .stage-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hud-grid,
+  .inventory-grid,
+  .kit-grid,
+  .craft-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .game-shell {
+    padding: 18px;
+    border-radius: 26px;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  .hud-grid,
+  .inventory-grid,
+  .kit-grid,
+  .craft-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .objective-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
